@@ -80,4 +80,9 @@ class AccountController extends Controller
 
         return redirect()->back();
     }
+
+    public function accountInfo(Account $account)
+    {
+        return $account;
+    }
 }

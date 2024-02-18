@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Payment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -12,7 +14,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return view('payment.list');
+        return view('payment.list', [
+            "payments" => Payment::all()
+        ]);
     }
 
     /**
@@ -20,9 +24,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('payment.create', [
-            'accounts' => Account::where('status', 'active')->get()
-        ]);
+        return view('payment.create');
     }
 
     /**
@@ -30,29 +32,35 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->toArray());
+
+        $validated = $request->validate([
+            'date' => 'required|date',
+        ]);
+
+        Payment::create([
+            'date' => Carbon::createFromFormat('m/d/Y', $request->date)->format('Y-m-d')
+        ]);
+
+        return redirect()->route('payments.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Payment $payment)
     {
-        //
+        return view('payment.edit', [
+            'payment' => $payment,
+            'accounts' => Account::where('status', 'active')->get()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
