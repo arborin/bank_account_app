@@ -10,8 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -32,14 +31,20 @@
 
     <!-- Latest compiled and minified CSS FOR SELECT-->
     <link href="{{ asset('assets/vendor/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet">
 
     <!-- Calendar -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap-4.min.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('assets/vendor/calendar/css/gijgo.min.css') }}" rel="stylesheet"> --}}
-    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/vendor/calendar/css/datepicker.min.css') }}" rel="stylesheet">
+    {{-- <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" /> --}}
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/alertify/css/default.min.css') }}" />
 
 
 </head>
@@ -83,7 +88,7 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{{ asset('assets/vendor/jquery/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/popper/popper.min.js') }}"></script>
 
     {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
@@ -97,19 +102,72 @@
 
 
     <!-- Calendar -->
-    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    {{-- <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script> --}}
+    <script src="{{ asset('assets/vendor/moment/moment.js') }}"></script>
+    <script src="{{ asset('assets/vendor/calendar/js/datetimepicker.min.js') }}"></script>
 
+    <!-- JavaScript -->
+    <script src="{{ asset('assets/vendor/alertify/js/alertify.min.js') }}"></script>
 
     <script>
+        // SELECT DROPDOWN
         $(function() {
             $('.selectpicker').selectpicker();
         });
 
+        // DATEPICKER
+        // $('#datepicker').datepicker({
+        //     uiLibrary: 'bootstrap4'
+        // });
 
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap4'
+
+        // $('#datetimepicker').datetimepicker({
+        //     format: 'YYYY-MM-DD HH:mm:ss'
+
+        // });
+
+        $('#datepicker').datetimepicker({
+            format: 'MM/DD/YYYY',
+            icons: {
+                up: 'fa fa-angle-up',
+                down: 'fa fa-angle-down'
+            },
         });
+
+        // $('.date').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
+
+
+
+
+
+        alertify.set('notifier', 'position', 'top-right');
+
+        $('.delete-btn').click(function() {
+            const [action, row_id] = $(this).attr('id').split('_')
+            console.log(row_id)
+            $("#record-id").val(row_id);
+            $("#deleteModalForm").attr('action', '/' + action);
+        })
     </script>
+
+    @if (Session::has('message'))
+        <script>
+            var msg = '{{ Session::get('message') }}';
+            var status = '{{ Session::get('status') }}';
+
+            if (msg) {
+                if (status == 'error') {
+                    alertify.error(msg);
+                } else {
+                    alertify.success(msg);
+                }
+
+            }
+        </script>
+    @endif
+    @yield('scripts')
 </body>
 
 </html>

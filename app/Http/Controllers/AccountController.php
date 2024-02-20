@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\PaymentTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
@@ -30,6 +32,15 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            "account_name" => 'required|max:255',
+            "account_number" => ['required', 'max:255', Rule::unique('accounts', 'account_number')],
+            "bank_name" => 'required|max:255',
+            "ifsc_code" => 'required|max:255',
+            "group" => 'required|max:255',
+            "status" => 'required|max:255'
+        ]);
+
         // dd($request->toArray());
         Account::create([
             "account_name" => $request->account_name,
@@ -40,7 +51,7 @@ class AccountController extends Controller
             "status" => $request->status
         ]);
 
-        return redirect()->route('accounts.index');
+        return redirect()->route('accounts.index')->with(['message' => "Record Added", 'status' => 'success']);
     }
 
 
@@ -59,6 +70,15 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
+        $validated = $request->validate([
+            "account_name" => 'required|max:255',
+            "account_number" => ['required', 'max:255', Rule::unique('accounts', 'account_number')->ignore($account->id)],
+            "bank_name" => 'required|max:255',
+            "ifsc_code" => 'required|max:255',
+            "group" => 'required|max:255',
+            "status" => 'required|max:255'
+        ]);
+
         $account["account_name"] = $request->account_name;
         $account["account_number"] = $request->account_number;
         $account["bank_name"] = $request->bank_name;
@@ -74,11 +94,23 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Account $account)
+    public function delAccount(Request $request)
     {
-        $account->delete();
+        $id = $request->record_id;
+        $account = Account::findOrFail($id);
 
-        return redirect()->back();
+        $transactions = PaymentTransaction::where('account_id', $id)->get();
+
+        if ($transactions) {
+            $message = ['message' => 'Account has payments', 'status' => 'error'];
+        } else {
+            $account->delete();
+            $message = ['message' => 'Account deleted', 'status' => 'success'];
+        }
+
+
+
+        return redirect()->back()->with($message);
     }
 
     public function accountInfo(Account $account)

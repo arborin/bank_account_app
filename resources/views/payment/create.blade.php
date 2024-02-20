@@ -13,7 +13,18 @@
                     <div class="row mb-3">
                         <label for="datepicker" class="col-sm-3 col-form-label">Date</label>
                         <div class="col-sm-9">
-                            <input name="date" value="{{ date('m/d/Y') }}" id="datepicker" autocomplete="off">
+
+                            <div class="input-group">
+                                <input class="form-control" name="date" value="{{ date('m/d/Y') }}" id="datepicker"
+                                    autocomplete="off">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2"><i class="bx bxs-calendar"></i></span>
+                                </div>
+
+                            </div>
+                            @error('date')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 

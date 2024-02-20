@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_transactions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('payment_id');
-            $table->double('amount');
-            $table->timestamps();
+        Schema::table('payments', function (Blueprint $table) {
+            $table->string('status')->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_transactions');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

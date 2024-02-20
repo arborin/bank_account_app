@@ -33,7 +33,11 @@
                                 <td>{{ $row->account_number }}</td>
                                 <td>{{ $row->bank_name }}</td>
                                 <td>{{ $row->ifsc_code }}</td>
-                                <td>{{ $row->group }}</td>
+                                <td>
+                                    @if (isset($groups[$row->group]))
+                                        {{ $groups[$row->group] }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($row->status == 'active')
                                         <span class="badge rounded-pill bg-success">Active</span>
@@ -42,10 +46,18 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('accounts.edit', ['account' => $row['id']]) }}"
-                                        class="btn btn-sm btn-warning">
-                                        <i class="bx bxs-edit"></i> Edit
-                                    </a>
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <a href="{{ route('accounts.edit', ['account' => $row['id']]) }}"
+                                            class="btn btn-sm btn-warning">
+                                            <i class="bx bxs-edit"></i> Edit
+                                        </a>
+                                        <button id="del-account_{{ $row->id }}" type="button"
+                                            class="btn btn-danger delete-btn btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal">
+                                            <i class="bx bxs-minus-circle"></i> Delete
+                                        </button>
+
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -56,4 +68,5 @@
         </div>
 
     </div>
+    @include('modal.modal')
 @endsection

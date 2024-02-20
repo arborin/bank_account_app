@@ -10,10 +10,17 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date'
+        'date',
+        'status'
     ];
 
     protected $dates = [
         'date'
     ];
+
+
+    public function transactions()
+    {
+        return $this->hasMany(PaymentTransaction::class, 'payment_id');
+    }
 }
