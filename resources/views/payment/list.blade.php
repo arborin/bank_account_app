@@ -12,7 +12,7 @@
             <div class="card-body">
                 <h5 class="card-title">Payment list</h5>
 
-                <!-- Table with stripped rows -->
+                <!-- Table with stripped rows comment-->
                 <table class="table datatable">
                     <thead>
                         <tr>
