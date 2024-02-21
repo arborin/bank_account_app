@@ -28,7 +28,7 @@
                     <tbody>
                         @foreach ($accounts as $row)
                             <tr>
-                                <td>{{ $row->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->account_name }}</td>
                                 <td>{{ $row->account_number }}</td>
                                 <td>{{ $row->bank_name }}</td>

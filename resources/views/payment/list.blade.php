@@ -27,18 +27,24 @@
                     <tbody>
                         @foreach ($payments as $row)
                             <tr>
-                                <td>{{ $row->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->transactions->sum('amount') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($row->date)->format('m/d/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($row->date)->format('d/m/Y') }}</td>
                                 <td>{{ count($row->transactions) }}</td>
                                 <td>
                                     <select class="form-select form-control-sm payment-status" aria-label="payment status"
                                         id="{{ $row->id }}">
                                         <option value="not_paid" {{ $row->status == 'not_paid' ? 'selected' : '' }}>Not paid
                                         </option>
-                                        <option value="paid_ib" {{ $row->status == 'paid_ib' ? 'selected' : '' }}>Paid-IB788
-                                        <option value="paid_kb" {{ $row->status == 'paid_kb' ? 'selected' : '' }}>Paid-KB005
+                                        <option value="paid_ib" {{ $row->status == 'paid_ib' ? 'selected' : '' }}>
+                                            PAY-IDFC-MAIN
+                                        <option value="paid_kb" {{ $row->status == 'paid_kb' ? 'selected' : '' }}>
+                                            PAY-KMB-RERA
                                         </option>
+                                        <option value="paid_kb_main" {{ $row->status == 'paid_kb_main' ? 'selected' : '' }}>
+                                            PAY-KMB-MAIN
+                                        </option>
+
                                     </select>
 
                                 </td>
@@ -53,8 +59,8 @@
                                             class="btn btn-sm btn-warning">
                                             <i class="bx bxs-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip"
-                                            data-placement="bottom" title="export"><i class="bx bxs-printer"></i>
+                                        <button id="print-payment_{{ $row['id'] }}"
+                                            class="btn btn-secondary btn-sm btn-print"><i class="bx bxs-printer"></i>
                                         </button>
 
                                         <a href="{{ route('payment-export', ['payment_id' => $row['id']]) }}"
@@ -84,8 +90,12 @@
                 <!-- End Table with stripped rows -->
             </div>
         </div>
-
     </div>
+
+    <div id="printView">
+        <!-- Content will be loaded here -->
+    </div>
+
     @include('modal.modal')
 @endsection
 
@@ -93,6 +103,42 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+
+            $(".btn-print").on("click", function() {
+                $
+                // URL of the page to load (replace "YOUR_PAGE_URL" with the actual URL)
+                const payment_id = $(this).attr('id').split("_")[1];
+                const pageUrl = `/payment/transaction-print/${payment_id}`;
+
+                // Create an iframe to isolate the content
+                let iframe = $('<iframe>', {
+                    id: 'printIframe',
+                    frameborder: 0,
+                    css: {
+                        position: 'absolute',
+                        width: '0',
+                        height: '0',
+                        border: 'none'
+                    }
+                });
+
+                // Append the iframe to the print view
+                $("#printView").append(iframe);
+
+                // Set the source of the iframe to the target link
+                iframe.attr('src', pageUrl);
+
+                // Show and print the print view when the iframe is loaded
+                iframe.on('load', function() {
+                    // Show and print the print view
+                    $("#printView").show();
+                    window.frames['printIframe'].focus();
+                    window.frames['printIframe'].print();
+
+                    // Remove the iframe after printing
+                    $("#printView").empty().hide();
+                });
+            });
 
 
 

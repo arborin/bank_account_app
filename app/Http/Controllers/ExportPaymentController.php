@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\IbPaymentExport;
 use App\Exports\KbPaymentExport;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -17,15 +18,20 @@ class ExportPaymentController extends Controller
         $payment = Payment::findOrFail($payment_id);
         $status = $payment->status; //paid_ib paid_kb
 
-        $file_name = "-" . date('Hi') . "-" . date('dmY') . ".xlsx";
+        $file_name = date('-dmY') . ".xlsx";
         // $file_name = str_replace(' ', '', $file_name);
 
         if ($status == 'paid_ib') {
-            $file_name = "IB788" . $file_name;
-            return Excel::download(new PaymentExport($payment_id), $file_name);
+            $file_name = "IDFC" . $file_name;
+            return Excel::download(new IbPaymentExport($payment_id), $file_name);
         }
         if ($status == 'paid_kb') {
-            $file_name = "KB005" . $file_name;
+            $file_name = "KMB-RERA" . $file_name;
+            return Excel::download(new KbPaymentExport($payment_id), $file_name);
+        }
+
+        if ($status == 'paid_kb_main') {
+            $file_name = "KMB-MAIN" . $file_name;
             return Excel::download(new KbPaymentExport($payment_id), $file_name);
         }
 

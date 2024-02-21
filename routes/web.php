@@ -31,6 +31,8 @@ Route::prefix('payment')->group(function () {
     Route::post('add-transaction', [PaymentController::class, 'addTransaction'])->name('add-transaction');
     // EXPORT
     Route::get('payment-export/{payment_id}', [ExportPaymentController::class, 'export'])->name('payment-export');
+    // PRINT PAGE
+    Route::get('transaction-print/{payment_id}', [PaymentController::class, 'printTransactions'])->name('print-transactions');
 });
 
 // DELATE ROUTES

@@ -13,7 +13,7 @@
                         <label for="account-name" class="col-sm-3 col-form-label">Date</label>
                         <div class="col-sm-9">
                             <input class="form-control" name="account_name"
-                                value="{{ \Carbon\Carbon::parse($payment->date)->format('m/d/Y') }}" readonly disabled
+                                value="{{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}" readonly disabled
                                 autocomplete="off">
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 
                         @foreach ($payment->transactions as $transaction)
                             <tr>
-                                <th scope="row">{{ $transaction->id }}</th>
+                                <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ optional($transaction->account)->account_name }}</td>
                                 <td>{{ optional($transaction->account)->account_number }}</td>
                                 <td>{{ optional($transaction->account)->ifsc_code }}</td>

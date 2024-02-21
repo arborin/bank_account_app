@@ -15,7 +15,7 @@
                         <div class="col-sm-9">
 
                             <div class="input-group">
-                                <input class="form-control" name="date" value="{{ date('m/d/Y') }}" id="datepicker"
+                                <input class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"
                                     autocomplete="off">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2"><i class="bx bxs-calendar"></i></span>

@@ -5,65 +5,67 @@ namespace App\Exports;
 use App\Models\Payment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class KbPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize
+class KbPaymentExport implements FromCollection, ShouldAutoSize, WithColumnFormatting // WithHeadings,
 {
     private $payment_id = null;
 
-    private $headings =
-    [
-        'Client_Code',
-        'Product_Code',
-        'Payment_Type',
-        'Payment_Ref_No.',
-        'Payment_Date',
-        'Instrument Date',
-        'Dr_Ac_No',
-        'Amount',
-        'Bank_Code_Indicator',
-        'Beneficiary_Code',
-        'Beneficiary_Name',
-        'Beneficiary_Bank',
-        'Beneficiary_Branch / IFSC Code',
-        'Beneficiary_Acc_No',
-        'Location',
-        'Print_Location',
-        'Instrument_Number',
-        'Ben_Add1',
-        'Ben_Add2',
-        'Ben_Add3',
-        'Ben_Add4',
-        'Beneficiary_Email',
-        'Beneficiary_Mobile',
-        'Debit_Narration',
-        'Credit_Narration',
-        'Payment Details 1',
-        'Payment Details 2',
-        'Payment Details 3',
-        'Payment Details 4',
-        'Enrichment_1',
-        'Enrichment_2',
-        'Enrichment_3',
-        'Enrichment_4',
-        'Enrichment_5',
-        'Enrichment_6',
-        'Enrichment_7',
-        'Enrichment_8',
-        'Enrichment_9',
-        'Enrichment_10',
-        'Enrichment_11',
-        'Enrichment_12',
-        'Enrichment_13',
-        'Enrichment_14',
-        'Enrichment_15',
-        'Enrichment_16',
-        'Enrichment_17',
-        'Enrichment_18',
-        'Enrichment_19',
-        'Enrichment_20',
-    ];
+    // private $headings =
+    // [
+    //     'Client_Code',
+    //     'Product_Code',
+    //     'Payment_Type',
+    //     'Payment_Ref_No.',
+    //     'Payment_Date',
+    //     'Instrument Date',
+    //     'Dr_Ac_No',
+    //     'Amount',
+    //     'Bank_Code_Indicator',
+    //     'Beneficiary_Code',
+    //     'Beneficiary_Name',
+    //     'Beneficiary_Bank',
+    //     'Beneficiary_Branch / IFSC Code',
+    //     'Beneficiary_Acc_No',
+    //     'Location',
+    //     'Print_Location',
+    //     'Instrument_Number',
+    //     'Ben_Add1',
+    //     'Ben_Add2',
+    //     'Ben_Add3',
+    //     'Ben_Add4',
+    //     'Beneficiary_Email',
+    //     'Beneficiary_Mobile',
+    //     'Debit_Narration',
+    //     'Credit_Narration',
+    //     'Payment Details 1',
+    //     'Payment Details 2',
+    //     'Payment Details 3',
+    //     'Payment Details 4',
+    //     'Enrichment_1',
+    //     'Enrichment_2',
+    //     'Enrichment_3',
+    //     'Enrichment_4',
+    //     'Enrichment_5',
+    //     'Enrichment_6',
+    //     'Enrichment_7',
+    //     'Enrichment_8',
+    //     'Enrichment_9',
+    //     'Enrichment_10',
+    //     'Enrichment_11',
+    //     'Enrichment_12',
+    //     'Enrichment_13',
+    //     'Enrichment_14',
+    //     'Enrichment_15',
+    //     'Enrichment_16',
+    //     'Enrichment_17',
+    //     'Enrichment_18',
+    //     'Enrichment_19',
+    //     'Enrichment_20',
+    // ];
 
 
     public function __construct($payment_id)
@@ -77,7 +79,13 @@ class KbPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function collection()
     {
         $payment = Payment::findOrFail($this->payment_id);
-        $payment_date = \Carbon\Carbon::parse($payment->date)->format('m/d/Y');
+        $payment_date = \Carbon\Carbon::parse($payment->date)->format('d/m/Y');
+        $dr_ac_no = '';
+        if ($payment->status == 'paid_kb') {
+            $dr_ac_no = "2448808057";
+        } elseif ($payment->status == 'paid_kb_main') {
+            $dr_ac_no = "8100370005";
+        }
 
         foreach ($payment->transactions as $transaction) {
 
@@ -95,14 +103,14 @@ class KbPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize
             $temp_array[3] = "";                //	Payment_Ref_No.',
             $temp_array[4] = $payment_date;     //	Payment_Date',
             $temp_array[5] = '';                //	Instrument Date',
-            $temp_array[6] = '2448808057';      //	Dr_Ac_No',
+            $temp_array[6] = $dr_ac_no;      //	Dr_Ac_No',
             $temp_array[7] = $transaction->amount;  //	Amount',
             $temp_array[8] = 'M';               //	Bank_Code_Indicator',
             $temp_array[9] = '';                //	Beneficiary_Code',
             $temp_array[10] = $transaction->account->account_name;           //	Beneficiary_Name',
             $temp_array[11] = '';               //	Beneficiary_Bank',
             $temp_array[12] = $ifsc_code;       //	Beneficiary_Branch / IFSC Code',
-            $temp_array[13] = '10077101530';    //	Beneficiary_Acc_No',
+            $temp_array[13] = $transaction->account->account_number;    //	Beneficiary_Acc_No',
             $temp_array[14] = '';           //	Location',
             $temp_array[15] = '';           //	Print_Location',
             $temp_array[16] = '';           //	Instrument_Number',
@@ -145,8 +153,10 @@ class KbPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize
         return collect($data_array);
     }
 
-    public function headings(): array
+    public function columnFormats(): array
     {
-        return $this->headings;
+        return [
+            'N' => NumberFormat::FORMAT_NUMBER,
+        ];
     }
 }

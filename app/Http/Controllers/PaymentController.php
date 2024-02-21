@@ -39,11 +39,11 @@ class PaymentController extends Controller
         $validated = $request->validate([
             'date' => [
                 'required',
-                'date'
+                // 'date'
             ],
         ]);
 
-        $date = Carbon::createFromFormat('m/d/Y', $request->date)->format('Y-m-d');
+        $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
 
         $payment = Payment::create([
             'date' => $date,
@@ -144,5 +144,12 @@ class PaymentController extends Controller
         $payment->save();
 
         return response()->json(['message' => 'Status set', 'status' => 'success']);
+    }
+
+    public function printTransactions($payment_id)
+    {
+        return view('print.payment', [
+            'payment' => Payment::findOrFail($payment_id)
+        ]);
     }
 }
