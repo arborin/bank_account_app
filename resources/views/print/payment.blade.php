@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <div class="col-md-12">
-        <h6>Payment date: {{ $payment->date }}</h6>
+        <h6>Payment date: {{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}</h6>
         <h6>Total amount: {{ $payment->transactions->sum('amount') }}</h6>
         <table class="table-bordered">
             <thead>
