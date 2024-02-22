@@ -94,7 +94,7 @@ class KbPaymentExport implements FromCollection, ShouldAutoSize, WithColumnForma
 
             if (Str::startsWith(Str::lower($transaction->account->bank_name), 'kotak')) {
                 $payment_type = 'IFT';
-                $ifsc_code = '';
+                $ifsc_code = 'KKBK0000958';
             }
 
             $temp_array[0] = "ARIMACMS";        // 'Client_Code',	Client_Code',
