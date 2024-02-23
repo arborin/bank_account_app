@@ -13,8 +13,7 @@
                             <div class="pt-4 pb-2 flex-column">
                                 <div class="d-flex justify-content-center py-4">
                                     <a href="#" class="logo d-flex align-items-center w-auto">
-                                        <img src="assets/img/logo.png" alt="">
-                                        <span class="d-none d-lg-block">ReportExport</span>
+                                        <span class="d-none d-lg-block">Bulk Payment System</span>
                                     </a>
                                 </div><!-- End Logo -->
                             </div>
