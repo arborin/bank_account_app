@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ExportPaymentController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('accounts.index');
 });
+
+
+Route::prefix('user')->group(
+    function () {
+        Route::resource('users', UserController::class);
+    }
+);
 
 Route::prefix('account')->group(function () {
     Route::resource('accounts', AccountController::class);
@@ -39,6 +47,7 @@ Route::prefix('payment')->group(function () {
 Route::post('/del-transaction', [PaymentController::class, 'delTransaction'])->name('del-transaction');
 Route::post('/del-payment', [PaymentController::class, 'delPayment'])->name('del-payment');
 Route::post('/del-account', [AccountController::class, 'delAccount'])->name('del-account');
+Route::post('/del-user', [UserController::class, 'delUser'])->name('del-user');
 
 // SET PAYMENT STATUS
 Route::post('/set-payment-status', [PaymentController::class, 'setPaymentStatus'])->name('set-payment-status');

@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
             <a class="nav-link {{ request()->is('account/*') ? 'active' : '' }}" href="{{ route('accounts.index') }}">
-                <i class="bi bi-people"></i>
+                <i class="ri-contacts-line"></i>
                 <span>Accounts</span>
             </a>
         </li>
@@ -12,6 +12,12 @@
             <a class="nav-link {{ request()->is('payment/*') ? 'active' : '' }}" href="{{ route('payments.index') }}">
                 <i class="bi bi-cash-coin"></i>
                 <span>Payments</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->is('user/*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                <i class="bi bi-people"></i>
+                <span>Users</span>
             </a>
         </li><!-- End Blank Page Nav -->
     </ul>
