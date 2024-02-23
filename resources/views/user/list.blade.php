@@ -9,7 +9,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Accounts list</h5>
+                <h5 class="card-title">User list</h5>
 
                 <!-- Table with stripped rows -->
                 <table class="table datatable">
@@ -31,7 +31,7 @@
                                 <td>{{ $row->created_at }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                        <a href="{{ route('accounts.edit', ['account' => $row['id']]) }}"
+                                        <a href="{{ route('users.edit', ['user' => $row['id']]) }}"
                                             class="btn btn-sm btn-warning">
                                             <i class="bx bxs-edit"></i> Edit
                                         </a>

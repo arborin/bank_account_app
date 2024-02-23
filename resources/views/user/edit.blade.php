@@ -36,7 +36,7 @@
                     <div class="row mb-3">
                         <label for="password" class="col-sm-3 col-form-label">Password</label>
                         <div class="col-sm-9">
-                            <input type="password" name="password" required value="{{ old('password') }}"
+                            <input type="password" name="password" value="" autocomplete="new-password"
                                 class="form-control" id="password">
                             @error('password')
                                 <div class="text-danger">{{ $message }}</div>

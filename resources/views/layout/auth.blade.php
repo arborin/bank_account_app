@@ -13,17 +13,13 @@
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
 
     <!-- Google Fonts -->
-    {{-- <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet"> --}}
+
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet"> --}}
+
     <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
@@ -36,7 +32,6 @@
     <!-- Calendar -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap-4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/calendar/css/datepicker.min.css') }}" rel="stylesheet">
-    {{-- <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" /> --}}
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -51,28 +46,14 @@
 
 <body>
 
-    @include('layout.header')
-
-    @include('layout.sidebar')
-
-    <main id="main" class="main">
-        <section class="section">
-            <div class="row">
-                @yield('content')
-            </div>
-        </section>
-
-    </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright
+    <div class="container">
+        <div class="row">
+            @yield('content')
         </div>
-    </footer><!-- End Footer -->
+    </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+
+
 
     <!-- Vendor JS Files -->
     {{-- <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script> --}}
@@ -109,65 +90,6 @@
     <!-- JavaScript -->
     <script src="{{ asset('assets/vendor/alertify/js/alertify.min.js') }}"></script>
 
-    <script>
-        // SELECT DROPDOWN
-        $(function() {
-            $('.selectpicker').selectpicker();
-        });
-
-        // DATEPICKER
-        // $('#datepicker').datepicker({
-        //     uiLibrary: 'bootstrap4'
-        // });
-
-
-        // $('#datetimepicker').datetimepicker({
-        //     format: 'YYYY-MM-DD HH:mm:ss'
-
-        // });
-
-        $('#datepicker').datetimepicker({
-            format: 'DD/MM/YYYY',
-            icons: {
-                up: 'fa fa-angle-up',
-                down: 'fa fa-angle-down'
-            },
-        });
-
-        // $('.date').datetimepicker({
-        //     format: 'YYYY-MM-DD'
-        // });
-
-
-
-
-
-        alertify.set('notifier', 'position', 'top-right');
-
-        $('.delete-btn').click(function() {
-            const [action, row_id] = $(this).attr('id').split('_')
-            console.log(row_id)
-            $("#record-id").val(row_id);
-            $("#deleteModalForm").attr('action', '/' + action);
-        })
-    </script>
-
-    @if (Session::has('message'))
-        <script>
-            var msg = '{{ Session::get('message') }}';
-            var status = '{{ Session::get('status') }}';
-
-            if (msg) {
-                if (status == 'error') {
-                    alertify.error(msg);
-                } else {
-                    alertify.success(msg);
-                }
-
-            }
-        </script>
-    @endif
-    @yield('scripts')
 </body>
 
 </html>

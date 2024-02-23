@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -41,7 +42,7 @@ class UserController extends Controller
         User::create([
             "name" => $request->name,
             "email" => $request->email,
-            "password" => bcrypt($request->password),
+            "password" => Hash::make($request->password),
         ]);
 
         return redirect()->route('users.index')->with(['message' => "Record Added", 'status' => 'success']);
@@ -69,8 +70,8 @@ class UserController extends Controller
         ];
 
         if ($request->password) {
-            $rules['password'] = "min:8|max|20";
-            $user["password"] = bcrypt($request->password);
+            $rules['password'] = "min:8|max:20";
+            $user["password"] = Hash::make($request->password);
         }
 
         $validated = $request->validate($rules);
