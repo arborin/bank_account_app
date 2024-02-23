@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'App accounts')
+
 @section('content')
     <div class="col-lg-6">
 

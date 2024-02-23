@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExportPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,10 @@ Route::middleware(['auth', 'prevent-back-button'])->group(
             }
         );
 
+        Route::prefix('dashboard')->group(function () {
+            Route::get('info', [DashboardController::class, 'info'])->name('dashboard-info');
+        });
+
         Route::prefix('account')->group(function () {
             Route::resource('accounts', AccountController::class);
             Route::get('info/{account}', [AccountController::class, 'accountInfo'])->name('account-info');
@@ -45,6 +50,7 @@ Route::middleware(['auth', 'prevent-back-button'])->group(
             // PRINT PAGE
             Route::get('transaction-print/{payment_id}', [PaymentController::class, 'printTransactions'])->name('print-transactions');
         });
+
 
         // DELATE ROUTES
         Route::post('/del-transaction', [PaymentController::class, 'delTransaction'])->name('del-transaction');

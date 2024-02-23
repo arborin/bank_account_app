@@ -1,5 +1,6 @@
 @extends('layout.app')
 
+@section('title', 'App users')
 
 @section('content')
     <div class="col-lg-12 mb-3">

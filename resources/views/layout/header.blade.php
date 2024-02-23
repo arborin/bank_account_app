@@ -12,11 +12,11 @@
 
      <nav class="header-nav ms-auto">
          <ul class="d-flex align-items-center">
-             <li class="nav-item dropdown pe-3">
+             {{-- <li class="nav-item dropdown pe-3">
                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#">
-                     <span class="d-md-block text-secondary">{{ date('d-m-Y') }}</span>
+                     <span class="d-md-block text-secondary"></span>
                  </a>
-             </li>
+             </li> --}}
 
              <li class="nav-item dropdown pe-3">
 

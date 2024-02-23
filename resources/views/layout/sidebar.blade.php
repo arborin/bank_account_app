@@ -3,6 +3,12 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
+            <a class="nav-link {{ request()->is('dashboard/*') ? 'active' : '' }}" href="{{ route('dashboard-info') }}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link {{ request()->is('account/*') ? 'active' : '' }}" href="{{ route('accounts.index') }}">
                 <i class="ri-contacts-line"></i>
                 <span>Accounts</span>
