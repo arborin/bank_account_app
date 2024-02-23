@@ -46,7 +46,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container-fluid auth-bg">
         <div class="row">
             @yield('content')
         </div>

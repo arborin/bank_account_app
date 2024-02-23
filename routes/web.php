@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'prevent-back-button'])->group(
     function () {
         Route::get('/', function () {
-            return redirect()->route('accounts.index');
+            return redirect()->route('dashboard-info');
         });
 
 

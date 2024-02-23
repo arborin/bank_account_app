@@ -1256,3 +1256,9 @@ h6 {
     border: 1px solid #dedede;
     border-radius: 4px;
 }
+
+.auth-bg {
+    background-image: url('../img/login_bg.png');
+    background-size: cover;
+    height: 100vh;
+}
